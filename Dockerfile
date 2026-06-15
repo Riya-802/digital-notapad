@@ -15,8 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy project
 COPY . /app/
 
-# Expose port 5000
-EXPOSE 5000
-
-# Run gunicorn bound to 0.0.0.0:5000
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+# We'll rely on the PORT environment variable dynamically rather than hardcoding EXPOSE
+# Run gunicorn bound to the PORT environment variable
+CMD gunicorn --bind 0.0.0.0:${PORT:-5000} app:app
